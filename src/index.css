@@ -1,0 +1,51 @@
+:root {
+  /* Color Palette */
+  --primary-color: #ff6b6b; /* Vibrant Coral Red */
+  --secondary-color: #ffd93d; /* Bright Yellow */
+  --accent-color: #4d96ff; /* Electric Blue */
+  --neutral-color: #f5f5f5; /* Light Neutral */
+  --text-color: #333333; /* Dark Text Color */
+
+  /* Typography */
+  --font-family: "Poppins", sans-serif; /* Modern Sans-Serif Font */
+  --heading-font-weight: 700; /* Bold Headings */
+  --body-font-weight: 400; /* Regular Body Text */
+
+  /* Spacing */
+  --spacing-xs: 0.25rem; /* Extra Small Spacing */
+  --spacing-sm: 0.5rem; /* Small Spacing */
+  --spacing-md: 1rem; /* Medium Spacing */
+  --spacing-lg: 1.5rem; /* Large Spacing */
+
+  /* Border Radius */
+  --border-radius-sm: 0.25rem; /* Small Border Radius */
+  --border-radius-md: 0.5rem; /* Medium Border Radius */
+  --border-radius-lg: 1rem; /* Large Border Radius */
+
+  /* Box Shadow */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle Box Shadow */
+
+  /* Transitions */
+  --transition-duration: 0.3s; /* Transition Duration */
+  --transition-timing-function: ease-in-out; /* Transition Timing Function */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
