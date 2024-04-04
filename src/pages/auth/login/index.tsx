@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaKey } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -16,10 +18,26 @@ const Login: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic
-    console.log(formData);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (data.error) throw new Error(data.message);
+      localStorage.setItem("token", data.data.token);
+      toast.success("Login successful", {
+        onClose: () => navigate("/plans"),
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+      return;
+    }
   };
 
   return (
@@ -53,7 +71,8 @@ const Login: React.FC = () => {
         <button type="submit">Login</button>
       </form>
       <p>
-        Forgot your password? <Link to="/auth/forgot-password">Reset Password</Link>
+        Forgot your password?{" "}
+        <Link to="/auth/forgot-password">Reset Password</Link>
       </p>
       <p>
         Don't have an account? <Link to="/auth/signup">Create Account</Link>

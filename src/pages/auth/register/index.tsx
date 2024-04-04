@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaUserPlus, FaKey } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     username: "",
     password: "",
@@ -20,10 +22,29 @@ const Register: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic
-    console.log(formData);
+    try {
+      if (formData.password !== formData.confirmPassword)
+        throw new Error("Passwords do not match");
+
+      const response = await fetch(`${process.env.REACT_APP_SERVER}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (data.error) throw new Error(data.message);
+      localStorage.setItem("token", data.data.token);
+      toast.success("Account created successfully", {
+        onClose: () => navigate("/plans"),
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+      return;
+    }
   };
 
   return (
@@ -31,25 +52,25 @@ const Register: React.FC = () => {
       <h2>Create Account</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstname">First Name</label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
+            id="firstname"
+            name="firstname"
             placeholder="John"
-            value={formData.firstName}
+            value={formData.firstname}
             onChange={handleChange}
           />
           <FaUser className="input-icon" />
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastname">Last Name</label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
+            id="lastname"
+            name="lastname"
             placeholder="Doe"
-            value={formData.lastName}
+            value={formData.lastname}
             onChange={handleChange}
           />
           <FaUser className="input-icon" />
