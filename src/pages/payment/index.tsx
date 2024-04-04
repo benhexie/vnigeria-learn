@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./payment.css";
+import { toast } from "react-toastify";
 
 const Payment: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(false);
@@ -42,30 +43,31 @@ const Payment: React.FC = () => {
       formData.append("receipt", imageRef.current.files[0]);
     formData.append("phone_number", paymentDetails.phoneNumber);
 
-      try {
-        const response = await fetch(
-          "https://webhook.site/424c6c19-0ff4-491f-b5d9-44cfcf03a892",
-          {
-            method: "POST",
-            mode: "no-cors",
-            body: formData,
-          }
-        );
-        const data = await response.text();
-        console.log(data);
-        setPaymentDetails({
-          amountSent: "",
-          firstName: "",
-          lastName: "",
-          email: "",
-          receipt: "",
-          phoneNumber: "",
-        });
-        setShowOverlay(false);
-      } catch (error) {
-        console.log(error);
-      }
-
+    try {
+      const response = await fetch(
+        "https://webhook.site/424c6c19-0ff4-491f-b5d9-44cfcf03a892",
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: formData,
+        }
+      );
+      const data = await response.text();
+      console.log(data);
+      toast.success("Your payment has been confirmed!");
+      setPaymentDetails({
+        amountSent: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        receipt: "",
+        phoneNumber: "",
+      });
+      setShowOverlay(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred. Please try again later.");
+    }
   };
 
   return (
