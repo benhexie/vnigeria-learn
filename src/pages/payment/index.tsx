@@ -43,10 +43,13 @@ const Payment: React.FC = () => {
     formData.append("phone_number", paymentDetails.phoneNumber);
 
       try {
-        const response = await fetch("http://localhost:5000/payment", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          "https://webhook.site/424c6c19-0ff4-491f-b5d9-44cfcf03a892",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
         const data = await response.text();
         console.log(data);
         setPaymentDetails({

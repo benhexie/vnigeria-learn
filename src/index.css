@@ -1,9 +1,9 @@
 :root {
   /* Color Palette */
-  --primary-color: #ff6b6b; /* Vibrant Coral Red */
-  --secondary-color: #ffd93d; /* Bright Yellow */
-  --accent-color: #4d96ff; /* Electric Blue */
-  --neutral-color: #f5f5f5; /* Light Neutral */
+  --primary-color: #3498db; /* Peter River Blue */
+  --secondary-color: #2ecc71; /* Emerald Green */
+  --accent-color: #e74c3c; /* Alizarin Crimson */
+  --neutral-color: #f0f0f0; /* Pale Gray */
   --text-color: #333333; /* Dark Text Color */
 
   /* Typography */
