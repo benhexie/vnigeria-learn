@@ -47,6 +47,7 @@ const Payment: React.FC = () => {
           "https://webhook.site/424c6c19-0ff4-491f-b5d9-44cfcf03a892",
           {
             method: "POST",
+            mode: "no-cors",
             body: formData,
           }
         );
