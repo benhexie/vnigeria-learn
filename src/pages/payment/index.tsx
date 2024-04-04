@@ -2,20 +2,31 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./payment.css";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Payment: React.FC = () => {
+  const navigate = useNavigate();
+  const { plan } = useParams();
+  let amount = 0;
+  if (plan === "monthly") amount = 1500;
+  else if (plan === "annual") amount = 12000;
+  else navigate("/plans", { replace: true });
+
+  const user = useSelector((state: any) => state.user.user);
   const [showOverlay, setShowOverlay] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
-    amountSent: "",
-    firstName: "",
-    lastName: "",
-    email: "",
+    amountSent: amount.toString(),
+    firstName: user?.firstname || "",
+    lastName: user?.lastname || "",
+    email: user?.email || "",
     receipt: "",
     phoneNumber: "",
   });
-  const { plan } = useParams();
   const imageRef = useRef<HTMLInputElement | null>(null);
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) navigate("/auth/login", { replace: true });
+  }, []);
 
   useEffect(() => {
     if (plan === "free-trial") {
@@ -23,10 +34,6 @@ const Payment: React.FC = () => {
     }
   }, []);
 
-  let amount = 0;
-  if (plan === "monthly") amount = 1500;
-  if (plan === "annual") amount = 12000;
-  else navigate("/plans");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,7 +60,7 @@ const Payment: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://webhook.site/424c6c19-0ff4-491f-b5d9-44cfcf03a892",
+        "https://hooks.zapier.com/hooks/catch/15603921/3pty782",
         {
           method: "POST",
           mode: "no-cors",
@@ -62,16 +69,9 @@ const Payment: React.FC = () => {
       );
       const data = await response.text();
       console.log(data);
-      toast.success("Your payment has been confirmed!");
-      setPaymentDetails({
-        amountSent: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        receipt: "",
-        phoneNumber: "",
+      toast.success("Your payment has been confirmed!", {
+        onClose: () => navigate("/dashboard", { replace: true }),
       });
-      setShowOverlay(false);
     } catch (error) {
       console.log(error);
       toast.error("An error occurred. Please try again later.");

@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaKey } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../redux/actions";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -31,6 +34,7 @@ const Login: React.FC = () => {
       const data = await response.json();
       if (data.error) throw new Error(data.message);
       localStorage.setItem("token", data.data.token);
+      dispatch(setUser(data.data.user));
       toast.success("Login successful", {
         onClose: () => navigate("/plans"),
       });

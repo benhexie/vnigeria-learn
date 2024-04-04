@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaUserPlus, FaKey } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { setUser } from "../../../redux/actions";
+import { useDispatch } from "react-redux";
 
 const Register: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstname: "",
@@ -38,6 +41,7 @@ const Register: React.FC = () => {
       const data = await response.json();
       if (data.error) throw new Error(data.message);
       localStorage.setItem("token", data.data.token);
+      dispatch(setUser(data.data.user));
       toast.success("Account created successfully", {
         onClose: () => navigate("/plans"),
       });
