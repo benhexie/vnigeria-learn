@@ -5,6 +5,7 @@ import "./home.css";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/actions";
+import Loading from "../../components/Loading";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const Home = () => {
     <>
       {loading ? (
         <div className="loading">
-          <h1>Loading...</h1>
+          <Loading />
         </div>
       ) : (
         <div className="home-page">

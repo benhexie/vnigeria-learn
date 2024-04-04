@@ -1,0 +1,24 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-text {
+  font-family: var(--font-family);
+  font-weight: var(--heading-font-weight);
+  font-size: 4rem;
+  color: var(--primary-color);
+  animation: pulse 0.5s alternate infinite ease-in-out;
+  margin: 0 0.5rem;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
