@@ -8,6 +8,7 @@ import Home from "./pages/home";
 import Payment from "./pages/payment";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Dashboard from "./pages/dashboard";
 
 function App() {
   return (
@@ -34,7 +35,10 @@ function App() {
             </Route>
             <Route path="plans" element={<Plans />} />
             <Route path="payment/:plan" element={<Payment />} />
-            <Route path="*" element={<Auth />}>
+          </Route>
+          <Route path="dashboard/*" element={<Dashboard />} />
+          <Route path="*" element={<Home />}>
+            <Route element={<Auth />}>
               <Route index element={<Login />} />
             </Route>
           </Route>

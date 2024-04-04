@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./payment.css";
 import { toast } from "react-toastify";
 
@@ -15,10 +15,18 @@ const Payment: React.FC = () => {
   });
   const { plan } = useParams();
   const imageRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (plan === "free-trial") {
+      navigate("/dashboard");
+    }
+  }, []);
 
   let amount = 0;
   if (plan === "monthly") amount = 1500;
   if (plan === "annual") amount = 12000;
+  else navigate("/plans");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
